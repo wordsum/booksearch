@@ -1,0 +1,12 @@
+type Query {
+    stories: [Story]
+    story(id: ID): Story
+}
+
+type Story {
+    id: ID!
+    name: String!
+    genre: String!
+    type: String!
+    wordCount: Int!
+}
