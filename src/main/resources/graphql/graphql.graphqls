@@ -1,12 +1,29 @@
-type Query {
-    stories: [Story]
-    story(id: ID): Story
-}
-
 type Story {
     id: ID!
     name: String!
     genre: String!
     type: String!
     wordCount: Int!
+    summary: String
+}
+
+input StoryDAO {
+    id: ID!
+    name: String!
+    genre: String!
+    type: String!
+    wordCount: Int!
+    summary: String
+}
+
+type Query {
+    getStories: [Story]
+    getStory(id: ID): Story
+    searchStory(text: String): [Story]
+    searchStoryIds(text: String): [String]
+}
+
+type Mutation {
+   putStory(storyDAO: StoryDAO): Story
+   deleteStory(id: ID): String
 }

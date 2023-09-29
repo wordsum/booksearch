@@ -6,6 +6,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.3"
 	kotlin("jvm") version "1.8.22"
 	kotlin("plugin.spring") version "1.9.0"
+	kotlin("plugin.serialization") version "1.9.0"
 }
 
 group = "com.wordsum"
@@ -23,6 +24,11 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven("https://maven.tryformation.com/releases") {
+		content {
+			includeGroup("com.jillesvangurp")
+		}
+	}
 }
 
 dependencies {
@@ -34,6 +40,8 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+	implementation("com.jillesvangurp:search-client:2.0.0")
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
