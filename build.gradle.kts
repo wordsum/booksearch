@@ -40,6 +40,8 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+	implementation("org.springframework.boot:spring-boot-starter-cache")
+	//implementation("org.springframework.boot:spring-context")
 	implementation("com.jillesvangurp:search-client:2.0.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")

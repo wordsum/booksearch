@@ -2,3 +2,7 @@ spring:
   graphql:
     graphiql:
       enabled: true
+
+elasticsearch:
+  host: "localhost"
+  port: "9200"

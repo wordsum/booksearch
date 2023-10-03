@@ -1,0 +1,40 @@
+Test Data:
+
+mutation PutStory {
+    putStory(
+        storyInput: {
+            id: 1
+            name: "Grange"
+            genre: "Science Fiction"
+            type: "Short Story"
+            wordCount: 4000
+            summary: "Sue Ellan loses a Grange drone on the Wilk's Farm and has to get it back before Ronnie Wilks breaks it."
+        }
+    )
+}
+
+mutation PutStory {
+    putStory(
+        storyInput: {
+            id: 2
+            name: "Iam and Youre Walk The Scary-Haunted Trail To The Beautiful Waterfall"
+            genre: "Adventure"
+            type: "Short Story"
+            wordCount: 4195
+            summary: "Iam and Youre walk the Scary-Haunted Trail to the Beautiful Waterfall"
+        }
+    )
+}
+
+mutation PutStory {
+    putStory(
+        storyInput: {
+            id: 3
+            name: "Breakout"
+            genre: "Fantasy"
+            type: "Flash Fiction"
+            wordCount: 615
+            summary: "Clover, a leprechaun, doesn't want to protect the gold at the end of rainbows."
+        }
+    )
+}

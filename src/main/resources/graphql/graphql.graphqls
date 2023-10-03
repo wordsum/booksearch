@@ -7,7 +7,7 @@ type Story {
     summary: String
 }
 
-input StoryDAO {
+input StoryInput {
     id: ID!
     name: String!
     genre: String!
@@ -17,13 +17,13 @@ input StoryDAO {
 }
 
 type Query {
-    getStories: [Story]
-    getStory(id: ID): Story
+    getStories: [String]
+    getStory(id: ID): String
     searchStory(text: String): [Story]
     searchStoryIds(text: String): [String]
 }
 
 type Mutation {
-   putStory(storyDAO: StoryDAO): Story
+   putStory(storyInput: StoryInput): String
    deleteStory(id: ID): String
 }
