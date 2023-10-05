@@ -5,58 +5,66 @@ import com.jillesvangurp.searchdsls.querydsl.bool
 import com.jillesvangurp.searchdsls.querydsl.match
 import com.jillesvangurp.searchdsls.querydsl.matchAll
 import com.wordsum.search.config.ElasticsearchConfig
+import com.wordsum.search.config.WordSumConfig
 import com.wordsum.search.model.Story
 import com.wordsum.search.model.StoryInput
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.JsonObject
+import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.stereotype.Component
 
 @Component
 class ElasticsearchDao(
-    val elasticsearchConfig: ElasticsearchConfig
+    val elasticsearchConfig: ElasticsearchConfig,
+    val wordSumConfig: WordSumConfig,
 ) {
-    fun indexDocuments(documents: List<Story>) {
-        documents.chunked(5).forEach {
-            runBlocking {
-                elasticsearchConfig.reactiveSearchClient().bulk {
-                    it.forEach { esDocument ->
-                        index(
-                            source = DEFAULT_JSON.encodeToString(Story.serializer(), esDocument),
-                            index = "story",
-                            id = esDocument.id
-                        )
-                    }
-                }
-            }
-        }
+
+    suspend fun getIndex(indexInput: String): JsonObject {
+        return elasticsearchConfig.reactiveSearchClient().getIndex(indexInput)
+    }
+    suspend fun deleteIndex(inputIndex: String): String {
+        elasticsearchConfig.reactiveSearchClient().deleteIndex(inputIndex)
+        return inputIndex
+    }
+
+    suspend fun createIndex(indexInput: String): String {
+       return elasticsearchConfig.reactiveSearchClient().createIndex(indexInput) {
+           settings {
+               replicas = 0
+               shards = 3
+           }
+           mappings {
+               text(Story::summary)
+           }
+       }.index
     }
 
     suspend fun addStory(storyInput: StoryInput): String {
         return elasticsearchConfig.reactiveSearchClient().indexDocument(
-            target = "story",
+            target = wordSumConfig.index,
             document = storyInput
         ).id
     }
 
     suspend fun deleteStory(id: String): String {
         return elasticsearchConfig.reactiveSearchClient().deleteDocument(
-            target = "story",
+            target = wordSumConfig.index,
             id = id
         ).id
     }
 
     suspend fun matchId(id: String): String {
-        return elasticsearchConfig.reactiveSearchClient().search("story") {
+        return elasticsearchConfig.reactiveSearchClient().search(wordSumConfig.index) {
             query = bool {
                 must(
                     match(Story::id, id)
                 )
             }
         }.ids[0]
-
     }
 
     suspend fun matchAll(): List<String> {
-        return elasticsearchConfig.reactiveSearchClient().search("story") {
+        return elasticsearchConfig.reactiveSearchClient().search(wordSumConfig.index) {
             query = bool {
                 must(
                     matchAll()
@@ -80,7 +88,7 @@ class ElasticsearchDao(
 
 
     suspend fun searchDocumentIds(text: String): List<String> {
-        return elasticsearchConfig.reactiveSearchClient().search("story") {
+        return elasticsearchConfig.reactiveSearchClient().search(wordSumConfig.index) {
             query = bool {
                 must(
                     match(Story::genre, text)
@@ -90,7 +98,7 @@ class ElasticsearchDao(
     }
 
     suspend fun searchDocument(text: String): List<Story> {
-        return elasticsearchConfig.reactiveSearchClient().search("story") {
+        return elasticsearchConfig.reactiveSearchClient().search(wordSumConfig.index) {
             query = bool {
                 must(
                     match(Story::genre, text)

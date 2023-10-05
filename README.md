@@ -1,15 +1,22 @@
 # WordSum Story Search
 
-A search of a complete story as defined by an agent.
+### Long Term Goals
+- Train A.I. to give it agency.
+
+### Mid Term Goals
+- Train A.I. to write, edit, publish, critique fiction and non-fiction.
+- Train A.I. to classify fiction vs non-fiction.
+
+### Short Term Goals
+- Train an LLM with prompts and embeddings to classify a story then find publishers for that story.
+- Train an LLM to determine if a story is complete and ready for publication.
 
 ### TODO:
-- Rewrite all search operations using Kt-search
-- Configure the Index
+- Use local a LLM and Langchain to return data dictionary definitions/classifications for fiction story.
+  - Configure local env with conda.
+  - Test prompts with Falcon LLM
 - Simple Recommendation Engine
 - Analyzer Investigation
-- Create a way dynamically score fields using an LLM and Langchain (prompts vs embeddings)
-  - Configure local env with conda.
-  - Quantum Falcon LLM (Amazon)
 
 ### Data Dictionary
 - id: The unique document id.

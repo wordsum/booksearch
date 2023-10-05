@@ -16,7 +16,13 @@ input StoryInput {
     summary: String
 }
 
+input IndexInput {
+    name: String
+}
+
 type Query {
+    getIndex(indexInput: String): String
+    getIndices: [String]
     getStories: [String]
     getStory(id: ID): String
     searchStory(text: String): [Story]
@@ -24,6 +30,8 @@ type Query {
 }
 
 type Mutation {
+   putIndex(indexInput: String): String
+   deleteIndex(indexInput: String): String
    putStory(storyInput: StoryInput): String
    deleteStory(id: ID): String
 }

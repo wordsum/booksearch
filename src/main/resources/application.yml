@@ -6,3 +6,6 @@ spring:
 elasticsearch:
   host: "localhost"
   port: "9200"
+
+wordsum:
+  index: "story"
